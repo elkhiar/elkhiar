@@ -1,7 +1,7 @@
 <span id="a">yassir@elkhiar</span>:<span id="b">~</span><span id="c">$</span> curriculum vitæ.txt<br/>
 email 1 : yassir.el-khiar@dauphine.eu<br/>
 email 2 : elkhiar00@gmail.com<br/>
-Paris, France<br/><br/>
+<tricolor>Paris, France<tricolor><br/><br/>
 
 I'm Yassir Elkhiar.<!-- laglaglaglaglaglaglaglaglaglaglaglag -->
 <p>I'm currently enrolled in the 1st year of <a href="https://www.esca.ma/">ESCA School of Management's program</a> And majoring in Economics and Management at the University of Hassan II.</p><!-- qowifjqwoeijfoqweijfqweoifjqweofijqweoqwoijefoqwijefoijfqiwoefjj -->
