@@ -114,7 +114,7 @@
                     Typer.index-=Typer.speed;//    remove speed for deleting text
             }
             var text=Typer.text.substring(0,Typer.index)// parse the text for stripping html enities
-           text = text.replace(/<tricolor>(.*?)</tricolor>/g, '<span class="tricolor">$1</span>');
+               text = text.replace(/<tricolor>(.*?)<\/tricolor>/g, '<span class="tricolor">$1</span>');
 $("#console").html(text.replace(/\n/g,"<br>"));
             window.scrollBy(0,50); // scroll to make sure bottom is always visible
         }
