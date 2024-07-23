@@ -79,22 +79,22 @@
         resizeCanvas();
 
         var points = [];
-        var pointCount = 150; // Increased number of points for denser effect
-        var distance = 100;
+        var pointCount = 100; // Number of points for effect
+        var distance = 150;
 
         for (var i = 0; i < pointCount; i++) {
             points.push({
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
-                vx: (Math.random() - 0.5) * 2,
-                vy: (Math.random() - 0.5) * 2
+                vx: (Math.random() - 0.5) * 1,
+                vy: (Math.random() - 0.5) * 1
             });
         }
 
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
-            ctx.lineWidth = 0.5;
+            ctx.lineWidth = 1;
 
             for (var i = 0; i < points.length; i++) {
                 var p = points[i];
@@ -197,4 +197,3 @@
         function t() {
             Typer.addText({ "keyCode": 123748 });
             if (Typer.index > Typer.text.length) {
-                clearInterval(timer);
