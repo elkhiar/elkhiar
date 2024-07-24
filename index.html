@@ -11,9 +11,9 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
+            font-family: courier, monospace; /* Use the same font throughout */
         }
         #console {
-            font-family: courier, monospace;
             color: #fff;
             width: 750px;
             margin-left: auto;
@@ -72,10 +72,45 @@
             left: 0;
             z-index: 0; /* Ensure the canvas is behind the console text */
         }
+        #header {
+            width: 750px;
+            margin: 100px auto 0;
+        }
+        #separator {
+            height: 1px;
+            background: #0bc;
+            width: 100%;
+            position: relative;
+            margin: 10px 0; /* Narrow space between sections */
+        }
+        #contact {
+            color: #fff;
+            font-size: 14px;
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+        #contact span {
+            margin-right: 20px;
+        }
     </style>
 </head>
 <body>
     <canvas id="wireframeCanvas"></canvas>
+
+    <div id="header">
+        <div id="console">
+            <span id="a">yassir@elkhiar</span>:<span id="b">~</span><span id="c">$</span> curriculum vitæ.txt
+        </div>
+        <div id="separator"></div>
+        <div id="contact">
+            <span>email 1: <a href="mailto:yassir.el-khiar@dauphine.eu">yassir.el-khiar@dauphine.eu</a></span>
+            <span>email 2: <a href="mailto:elkhiar00@gmail.com">elkhiar00@gmail.com</a></span>
+            <span>07 63 42 13 23</span>
+            <span class="tricolor">Paris, France</span>
+        </div>
+    </div>
+
     <script type="text/javascript">
         var Typer = {
             text: null,
@@ -155,7 +190,6 @@
             }
         }
     </script>
-    <div id="console"></div>
     <script src="wireframe.js"></script> <!-- Include the wireframe animation script -->
 </body>
 </html>
