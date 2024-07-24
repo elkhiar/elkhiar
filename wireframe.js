@@ -4,10 +4,11 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 const points = [];
-const pointCount = 200;
-const speed = 0.5;
-const connectionDistance = 100;
+const pointCount = 200; // Ajuster le nombre de points
+const speed = 0.5; // Ajuster la vitesse des points
+const connectionDistance = 100; // Ajuster la distance de connexion
 
+// Initialiser les points avec une vitesse aléatoire
 for (let i = 0; i < pointCount; i++) {
     points.push({
         x: Math.random() * canvas.width,
@@ -17,6 +18,7 @@ for (let i = 0; i < pointCount; i++) {
     });
 }
 
+// Fonction pour dessiner le wireframe
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.strokeStyle = 'white';
@@ -27,9 +29,11 @@ function draw() {
         point.x += point.dx;
         point.y += point.dy;
 
+        // Rebondir les points aux bords du canvas
         if (point.x < 0 || point.x > canvas.width) point.dx *= -1;
         if (point.y < 0 || point.y > canvas.height) point.dy *= -1;
 
+        // Dessiner les connexions entre les points
         for (let j = i + 1; j < pointCount; j++) {
             const otherPoint = points[j];
             const distance = Math.hypot(point.x - otherPoint.x, point.y - otherPoint.y);
