@@ -80,13 +80,14 @@
             height: 1px;
             background: #0bc;
             width: 100%;
-            position: relative;
-            margin: 10px 0; /* Narrow space between sections */
+            position: absolute;
+            top: 20px; /* Ajuste cette valeur selon l'espace requis sous la première ligne */
+            left: 0;
         }
         #contact {
             color: #fff;
             font-size: 14px;
-            margin-top: 10px;
+            margin-top: 30px;
             display: flex;
             justify-content: space-between;
         }
@@ -100,9 +101,11 @@
 
     <div id="header">
         <div id="console">
-            <span id="a">yassir@elkhiar</span>:<span id="b">~</span><span id="c">$</span> curriculum vitæ.txt
+            <div id="consoleLine">
+                <span id="a">yassir@elkhiar</span>:<span id="b">~</span><span id="c">$</span> curriculum vitæ.txt
+            </div>
+            <div id="separator"></div>
         </div>
-        <div id="separator"></div>
         <div id="contact">
             <span>email 1: <a href="mailto:yassir.el-khiar@dauphine.eu">yassir.el-khiar@dauphine.eu</a></span>
             <span>email 2: <a href="mailto:elkhiar00@gmail.com">elkhiar00@gmail.com</a></span>
