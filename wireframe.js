@@ -10,11 +10,11 @@ resizeCanvas();
 window.addEventListener('resize', resizeCanvas);
 
 const points = [];
-const pointCount = 300; // Nombre de points
-const speed = 0.5; // Vitesse des points
-const connectionDistance = 120; // Distance pour connecter les points
+const pointCount = 500; // Augmenter le nombre de points pour plus de densité
+const speed = 0.3; // Ajuster la vitesse des points pour une animation plus fluide
+const connectionDistance = 150; // Ajuster la distance de connexion pour une apparence plus aérée
 
-// Initialiser les points
+// Initialiser les points avec une vitesse aléatoire
 for (let i = 0; i < pointCount; i++) {
     points.push({
         x: Math.random() * canvas.width,
@@ -26,8 +26,8 @@ for (let i = 0; i < pointCount; i++) {
 
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height); // Effacer le canvas
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.7)'; // Couleur des lignes
-    ctx.lineWidth = 0.8; // Épaisseur des lignes
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)'; // Couleur des lignes avec transparence
+    ctx.lineWidth = 0.6; // Épaisseur des lignes
 
     // Dessiner les connexions entre les points
     for (let i = 0; i < pointCount; i++) {
@@ -44,7 +44,7 @@ function draw() {
             const distance = Math.hypot(point.x - otherPoint.x, point.y - otherPoint.y);
             if (distance < connectionDistance) {
                 const alpha = 1 - distance / connectionDistance;
-                ctx.globalAlpha = alpha * 0.7; // Ajuster l'opacité
+                ctx.globalAlpha = alpha * 0.5; // Ajuster l'opacité
                 ctx.beginPath();
                 ctx.moveTo(point.x, point.y);
                 ctx.lineTo(otherPoint.x, otherPoint.y);
