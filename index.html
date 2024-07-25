@@ -50,14 +50,6 @@
             top: 0;
             left: 0;
         }
-        .additional-info {
-            color: #fff;
-            font-size: 14px;
-            margin-top: 0;
-        }
-        .additional-info span {
-            display: block;
-        }
         @keyframes tricolorWave {
             0% { background-position: 200% 0; }
             100% { background-position: -200% 0; }
@@ -110,112 +102,43 @@
             <div class="decrypt-container">
                 <div id="decryptingText" class="decrypting"></div>
             </div>
-            <div class="additional-info" id="additionalInfo">
-                <span>yassir.el-khiar@dauphine</span>
-                <span>elkhiar00@gmail.com</span>
-                <span>Paris, FR</span>
-            </div>
         </div>
     </div>
 
     <script type="text/javascript">
-        var Typer = {
-            text: null,
-            accessCountimer: null,
-            index: 0,
-            speed: 2,
-            file: "",
-            accessCount: 0,
-            deniedCount: 0,
-            init: function () {
-                accessCountimer = setInterval(function () { Typer.updLstChr(); }, 500);
-                $.get(Typer.file, function (data) {
-                    Typer.text = data;
-                    Typer.text = Typer.text.slice(0, Typer.text.length - 1);
-                });
-            },
-            content: function () {
-                return $("#console").html();
-            },
-            write: function (str) {
-                $("#console").append(str);
-                return false;
-            },
-            addText: function (key) {
-                if (key.keyCode == 18) {
-                    Typer.accessCount++;
-                    if (Typer.accessCount >= 3) {
-                        Typer.makeAccess();
-                    }
-                } else if (key.keyCode == 20) {
-                    Typer.deniedCount++;
-                    if (Typer.deniedCount >= 3) {
-                        Typer.makeDenied();
-                    }
-                } else if (key.keyCode == 27) {
-                    Typer.hidepop();
-                } else if (Typer.text) {
-                    var cont = Typer.content();
-                    if (cont.substring(cont.length - 1, cont.length) == "|")
-                        $("#console").html($("#console").html().substring(0, cont.length - 1));
-                    if (key.keyCode != 8) {
-                        Typer.index += Typer.speed;
-                    } else {
-                        if (Typer.index > 0)
-                            Typer.index -= Typer.speed;
-                    }
-                    var text = Typer.text.substring(0, Typer.index)
-                    text = text.replace(/<tricolor>(.*?)<\/tricolor>/g, '<span class="tricolor">$1</span>');
-                    $("#console").html(text.replace(/\n/g, "<br>"));
-                    window.scrollBy(0, 50);
-                }
-                if (key.preventDefault && key.keyCode != 122) {
-                    key.preventDefault()
-                };
-                if (key.keyCode != 122) {
-                    key.returnValue = false;
-                }
-            },
-            updLstChr: function () {
-                var cont = this.content();
-                if (cont.substring(cont.length - 1, cont.length) == "|")
-                    $("#console").html($("#console").html().substring(0, cont.length - 1));
-                else
-                    this.write("|");
-            }
-        }
+        // Decryption Effect Code
+        const targetText = "---------------------------------"; // Your horizontal line
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789&éèç=+$ù!§/";
+        const length = targetText.length;
+        let currentText = Array(length).fill(' '); // Start with spaces
+        let index = 0;
 
-        Typer.speed = 3;
-        Typer.file = "elkhiar.txt";
-        Typer.init();
-
-        var timer = setInterval("t();", 30);
-        function t() {
-            Typer.addText({ "keyCode": 123748 });
-            if (Typer.index > Typer.text.length) {
-                clearInterval(timer);
-            }
-        }
-
-        // New Decrypt Effect Code
-        const targetText = "---------------------------------";
-        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        let decryptingText = "";
-        let currentLength = 0;
-        let interval = setInterval(() => {
-            if (currentLength < targetText.length) {
-                decryptingText += chars.charAt(Math.floor(Math.random() * chars.length));
-                document.getElementById("decryptingText").textContent = decryptingText;
-                currentLength++;
+        function updateText() {
+            if (index < length) {
+                currentText[index] = chars.charAt(Math.floor(Math.random() * chars.length));
+                document.getElementById("decryptingText").textContent = currentText.join('');
+                index++;
+                setTimeout(updateText, 50); // Continue with the next character after a delay
             } else {
-                clearInterval(interval);
-                document.getElementById("decryptingText").textContent = targetText;
-                // Show additional info after decrypting text is complete
-                document.getElementById("additionalInfo").style.display = "block";
+                // Gradually replace random characters with dashes
+                replaceWithDashes();
             }
-        }, 50);
+        }
 
-        document.getElementById("additionalInfo").style.display = "none";
+        function replaceWithDashes() {
+            let dashIndex = 0;
+            const interval = setInterval(() => {
+                if (dashIndex < length) {
+                    currentText[dashIndex] = '-';
+                    document.getElementById("decryptingText").textContent = currentText.join('');
+                    dashIndex++;
+                } else {
+                    clearInterval(interval); // Stop when all characters are replaced
+                }
+            }, 50); // Adjust speed here
+        }
+
+        updateText(); // Start the decryption effect
     </script>
     <script src="wireframe.js"></script> <!-- Include the wireframe animation script -->
 </body>
