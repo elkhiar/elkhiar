@@ -41,7 +41,7 @@
             width: 750px;
             margin: 0 auto;
             position: relative;
-            height: 20px;
+            height: 20px; /* Adjusted to make space for the line of text */
         }
         .decrypting {
             color: #0bc;
@@ -51,13 +51,13 @@
             left: 0;
         }
         .contact-info {
-            margin-top: 30px;
+            margin-top: 1px; /* Minimal space between the line of dashes and the contact info */
             font-size: 14px;
             color: #fff;
+            white-space: nowrap; /* Prevent line breaks */
         }
         .contact-info p {
-            margin: 5px 0;
-            white-space: nowrap;
+            margin: 0; /* No extra margin between lines */
         }
         @keyframes tricolorWave {
             0% { background-position: 200% 0; }
