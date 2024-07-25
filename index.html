@@ -50,6 +50,14 @@
             top: 0;
             left: 0;
         }
+        .additional-info {
+            color: #fff;
+            font-size: 14px;
+            margin-top: 0;
+        }
+        .additional-info span {
+            display: block;
+        }
         @keyframes tricolorWave {
             0% { background-position: 200% 0; }
             100% { background-position: -200% 0; }
@@ -101,6 +109,11 @@
             </div>
             <div class="decrypt-container">
                 <div id="decryptingText" class="decrypting"></div>
+            </div>
+            <div class="additional-info" id="additionalInfo">
+                <span>yassir.el-khiar@dauphine</span>
+                <span>elkhiar00@gmail.com</span>
+                <span>Paris, FR</span>
             </div>
         </div>
     </div>
@@ -197,8 +210,12 @@
             } else {
                 clearInterval(interval);
                 document.getElementById("decryptingText").textContent = targetText;
+                // Show additional info after decrypting text is complete
+                document.getElementById("additionalInfo").style.display = "block";
             }
         }, 50);
+
+        document.getElementById("additionalInfo").style.display = "none";
     </script>
     <script src="wireframe.js"></script> <!-- Include the wireframe animation script -->
 </body>
