@@ -76,21 +76,13 @@
             width: 750px;
             margin: 100px auto 0;
         }
-        hr {
-            border: none;
+        #separator {
             height: 1px;
             background: #0bc;
-            margin: 0; /* No margin to ensure it stays right after the first line */
-        }
-        #contact {
-            color: #fff;
-            font-size: 14px;
-            margin-top: 30px;
-            display: flex;
-            justify-content: space-between;
-        }
-        #contact span {
-            margin-right: 20px;
+            width: 100%;
+            position: absolute;
+            top: 20px; /* Ajuste cette valeur selon l'espace requis sous la première ligne */
+            left: 0;
         }
     </style>
 </head>
@@ -102,14 +94,7 @@
             <div id="consoleLine">
                 <span id="a">yassir@elkhiar</span>:<span id="b">~</span><span id="c">$</span> curriculum vitæ.txt
             </div>
-            <hr> <!-- Add horizontal line here -->
             <div id="separator"></div>
-        </div>
-        <div id="contact">
-            <span>email 1: <a href="mailto:yassir.el-khiar@dauphine.eu">yassir.el-khiar@dauphine.eu</a></span>
-            <span>email 2: <a href="mailto:elkhiar00@gmail.com">elkhiar00@gmail.com</a></span>
-            <span>07 63 42 13 23</span>
-            <span class="tricolor">Paris, France</span>
         </div>
     </div>
 
