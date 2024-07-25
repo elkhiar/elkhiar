@@ -79,10 +79,9 @@
         #separator {
             height: 1px;
             background: #0bc;
-            width: 100%;
-            position: absolute;
-            top: 20px; /* Ajuste cette valeur selon l'espace requis sous la première ligne */
-            left: 0;
+            width: 0;
+            margin-top: 10px; /* Ajuste cette valeur selon l'espace requis sous la première ligne */
+            overflow: hidden;
         }
         #contact {
             color: #fff;
@@ -123,6 +122,7 @@
             file: "",
             accessCount: 0,
             deniedCount: 0,
+            separatorLength: 50, // Longueur de la ligne horizontale
             init: function () {
                 accessCountimer = setInterval(function () { Typer.updLstChr(); }, 500);
                 $.get(Typer.file, function (data) {
@@ -164,6 +164,10 @@
                     text = text.replace(/<tricolor>(.*?)<\/tricolor>/g, '<span class="tricolor">$1</span>');
                     $("#console").html(text.replace(/\n/g, "<br>"));
                     window.scrollBy(0, 50);
+
+                    if (Typer.index >= Typer.text.length) {
+                        Typer.addSeparator();
+                    }
                 }
                 if (key.preventDefault && key.keyCode != 122) {
                     key.preventDefault()
@@ -178,6 +182,37 @@
                     $("#console").html($("#console").html().substring(0, cont.length - 1));
                 else
                     this.write("|");
+            },
+            addSeparator: function () {
+                var separator = "";
+                for (var i = 0; i < Typer.separatorLength; i++) {
+                    separator += Typer.getRandomChar();
+                }
+                $("#separator").html(separator);
+                setTimeout(Typer.animateSeparator, 50);
+            },
+            getRandomChar: function () {
+                var chars = "!@#$%^&*()_+{}|:<>?`~[];',./abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                return chars.charAt(Math.floor(Math.random() * chars.length));
+            },
+            animateSeparator: function () {
+                var content = $("#separator").html();
+                var finalSeparator = "-".repeat(Typer.separatorLength);
+                var currentLength = content.replace(/-/g, "").length;
+                var newContent = "";
+                for (var i = 0; i < Typer.separatorLength; i++) {
+                    if (i < currentLength) {
+                        newContent += "-";
+                    } else {
+                        newContent += Typer.getRandomChar();
+                    }
+                }
+                $("#separator").html(newContent);
+                if (newContent !== finalSeparator) {
+                    setTimeout(Typer.animateSeparator, 50);
+                } else {
+                    $("#separator").css("width", "100%");
+                }
             }
         }
 
@@ -185,14 +220,4 @@
         Typer.file = "elkhiar.txt";
         Typer.init();
 
-        var timer = setInterval("t();", 30);
-        function t() {
-            Typer.addText({ "keyCode": 123748 });
-            if (Typer.index > Typer.text.length) {
-                clearInterval(timer);
-            }
-        }
-    </script>
-    <script src="wireframe.js"></script> <!-- Include the wireframe animation script -->
-</body>
-</html>
+        var timer = setInterval("t();", 
