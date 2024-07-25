@@ -23,7 +23,6 @@
             line-height: 1;
             position: relative;
             z-index: 1; /* Ensure the console text appears above the canvas */
-            display: none; /* Hide the console */
         }
         a {
             color: #0bc;
@@ -38,6 +37,35 @@
         #b {
             color: #ff0096;
         }
+        @keyframes tricolorWave {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .tricolor {
+            background: linear-gradient(to right, #002395, #002395 33%, #FFFFFF 33%, #FFFFFF 66%, #ED2939 66%, #ED2939);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-size: 300% 100%;
+            animation: tricolorWave 3s linear infinite;
+            display: inline-block;
+        }
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+        .tricolor:hover {
+            animation: tricolorWave 3s linear infinite, shake 0.5s linear infinite;
+        }
         canvas {
             position: absolute;
             top: 0;
@@ -51,9 +79,10 @@
         #separator {
             height: 1px;
             background: #0bc;
-            width: 0;
-            margin-top: 10px; /* Ajuste cette valeur selon l'espace requis sous la première ligne */
-            overflow: hidden;
+            width: 100%;
+            position: absolute;
+            top: 20px; /* Ajuste cette valeur selon l'espace requis sous la première ligne */
+            left: 0;
         }
         #contact {
             color: #fff;
@@ -65,7 +94,6 @@
         #contact span {
             margin-right: 20px;
         }
-        /* Supprimé les styles tricolores */
     </style>
 </head>
 <body>
@@ -82,7 +110,7 @@
             <span>email 1: <a href="mailto:yassir.el-khiar@dauphine.eu">yassir.el-khiar@dauphine.eu</a></span>
             <span>email 2: <a href="mailto:elkhiar00@gmail.com">elkhiar00@gmail.com</a></span>
             <span>07 63 42 13 23</span>
-            <span style="color: #fff;">Paris, France</span> <!-- Changement du style ici -->
+            <span class="tricolor">Paris, France</span>
         </div>
     </div>
 
@@ -95,7 +123,6 @@
             file: "",
             accessCount: 0,
             deniedCount: 0,
-            separatorLength: 50, // Longueur de la ligne horizontale
             init: function () {
                 accessCountimer = setInterval(function () { Typer.updLstChr(); }, 500);
                 $.get(Typer.file, function (data) {
@@ -137,10 +164,6 @@
                     text = text.replace(/<tricolor>(.*?)<\/tricolor>/g, '<span class="tricolor">$1</span>');
                     $("#console").html(text.replace(/\n/g, "<br>"));
                     window.scrollBy(0, 50);
-
-                    if (Typer.index >= Typer.text.length) {
-                        Typer.addSeparator();
-                    }
                 }
                 if (key.preventDefault && key.keyCode != 122) {
                     key.preventDefault()
@@ -155,37 +178,6 @@
                     $("#console").html($("#console").html().substring(0, cont.length - 1));
                 else
                     this.write("|");
-            },
-            addSeparator: function () {
-                var separator = "";
-                for (var i = 0; i < Typer.separatorLength; i++) {
-                    separator += Typer.getRandomChar();
-                }
-                $("#separator").html(separator);
-                setTimeout(Typer.animateSeparator, 50);
-            },
-            getRandomChar: function () {
-                var chars = "!@#$%^&*()_+{}|:<>?`~[];',./abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-                return chars.charAt(Math.floor(Math.random() * chars.length));
-            },
-            animateSeparator: function () {
-                var content = $("#separator").html();
-                var finalSeparator = "-".repeat(Typer.separatorLength);
-                var currentLength = content.replace(/-/g, "").length;
-                var newContent = "";
-                for (var i = 0; i < Typer.separatorLength; i++) {
-                    if (i < currentLength) {
-                        newContent += "-";
-                    } else {
-                        newContent += Typer.getRandomChar();
-                    }
-                }
-                $("#separator").html(newContent);
-                if (newContent !== finalSeparator) {
-                    setTimeout(Typer.animateSeparator, 50);
-                } else {
-                    $("#separator").css("width", "100%");
-                }
             }
         }
 
@@ -193,7 +185,14 @@
         Typer.file = "elkhiar.txt";
         Typer.init();
 
-        var timer = setInterval("t();", 1000); // Assure that this line is updated to be functional
+        var timer = setInterval("t();", 30);
+        function t() {
+            Typer.addText({ "keyCode": 123748 });
+            if (Typer.index > Typer.text.length) {
+                clearInterval(timer);
+            }
+        }
     </script>
+    <script src="wireframe.js"></script> <!-- Include the wireframe animation script -->
 </body>
 </html>
