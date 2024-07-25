@@ -50,6 +50,15 @@
             top: 0;
             left: 0;
         }
+        .contact-info {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #fff;
+        }
+        .contact-info p {
+            margin: 5px 0;
+            white-space: nowrap;
+        }
         @keyframes tricolorWave {
             0% { background-position: 200% 0; }
             100% { background-position: -200% 0; }
@@ -102,13 +111,18 @@
             <div class="decrypt-container">
                 <div id="decryptingText" class="decrypting"></div>
             </div>
+            <div class="contact-info hidden">
+                <p id="line1"></p>
+                <p id="line2"></p>
+                <p id="line3"></p>
+            </div>
         </div>
     </div>
 
     <script type="text/javascript">
         // Decryption Effect Code
         const targetText = "---------------------------------"; // Your horizontal line
-        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789&éèç=+$ù!§/";
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         const length = targetText.length;
         let currentText = Array(length).fill(' '); // Start with spaces
         let index = 0;
@@ -134,8 +148,36 @@
                     dashIndex++;
                 } else {
                     clearInterval(interval); // Stop when all characters are replaced
+                    revealContactInfo(); // Reveal the contact information after decryption
                 }
             }, 50); // Adjust speed here
+        }
+
+        function typeText(elementId, text, callback) {
+            const element = document.getElementById(elementId);
+            let charIndex = 0;
+
+            function type() {
+                if (charIndex < text.length) {
+                    element.textContent += text.charAt(charIndex);
+                    charIndex++;
+                    setTimeout(type, 50); // Adjust typing speed here
+                } else if (callback) {
+                    setTimeout(callback, 500); // Wait before calling the next callback
+                }
+            }
+
+            type();
+        }
+
+        function revealContactInfo() {
+            typeText('line1', 'yassir.el-khiar@dauphine.eu', function() {
+                typeText('line2', 'elkhiar00@gmail.com', function() {
+                    typeText('line3', 'Paris, FR');
+                });
+            });
+
+            document.querySelector('.contact-info').classList.remove('hidden'); // Show the contact info container
         }
 
         updateText(); // Start the decryption effect
