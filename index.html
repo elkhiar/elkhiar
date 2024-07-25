@@ -37,6 +37,19 @@
         #b {
             color: #ff0096;
         }
+        .decrypt-container {
+            width: 750px;
+            margin: 0 auto;
+            position: relative;
+            height: 20px;
+        }
+        .decrypting {
+            color: #0bc;
+            font-size: 14px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
         @keyframes tricolorWave {
             0% { background-position: 200% 0; }
             100% { background-position: -200% 0; }
@@ -76,14 +89,6 @@
             width: 750px;
             margin: 100px auto 0;
         }
-        #separator {
-            height: 1px;
-            background: #0bc;
-            width: 100%;
-            position: absolute;
-            top: 20px; /* Ajuste cette valeur selon l'espace requis sous la première ligne */
-            left: 0;
-        }
     </style>
 </head>
 <body>
@@ -94,7 +99,9 @@
             <div id="consoleLine">
                 <span id="a">yassir@elkhiar</span>:<span id="b">~</span><span id="c">$</span> curriculum vitæ.txt
             </div>
-            <div id="separator"></div>
+            <div class="decrypt-container">
+                <div id="decryptingText" class="decrypting"></div>
+            </div>
         </div>
     </div>
 
@@ -176,6 +183,22 @@
                 clearInterval(timer);
             }
         }
+
+        // New Decrypt Effect Code
+        const targetText = "---------------------------------";
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        let decryptingText = "";
+        let currentLength = 0;
+        let interval = setInterval(() => {
+            if (currentLength < targetText.length) {
+                decryptingText += chars.charAt(Math.floor(Math.random() * chars.length));
+                document.getElementById("decryptingText").textContent = decryptingText;
+                currentLength++;
+            } else {
+                clearInterval(interval);
+                document.getElementById("decryptingText").textContent = targetText;
+            }
+        }, 50);
     </script>
     <script src="wireframe.js"></script> <!-- Include the wireframe animation script -->
 </body>
