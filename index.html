@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yassir Elkhiar</title>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style type="text/css">
         body {
             background-color: #000;
@@ -76,13 +76,11 @@
             width: 750px;
             margin: 100px auto 0;
         }
-        #separator {
+        hr {
+            border: none;
             height: 1px;
             background: #0bc;
-            width: 100%;
-            position: absolute;
-            top: 20px; /* Ajuste cette valeur selon l'espace requis sous la première ligne */
-            left: 0;
+            margin: 0; /* No margin to ensure it stays right after the first line */
         }
         #contact {
             color: #fff;
@@ -104,6 +102,7 @@
             <div id="consoleLine">
                 <span id="a">yassir@elkhiar</span>:<span id="b">~</span><span id="c">$</span> curriculum vitæ.txt
             </div>
+            <hr> <!-- Add horizontal line here -->
             <div id="separator"></div>
         </div>
         <div id="contact">
