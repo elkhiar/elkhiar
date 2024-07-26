@@ -11,7 +11,7 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
-            font-family: courier, monospace; /* Use the same font throughout */
+            font-family: courier, monospace;
         }
         #console {
             color: #fff;
@@ -22,7 +22,7 @@
             font-size: 14px;
             line-height: 1;
             position: relative;
-            z-index: 1; /* Ensure the console text appears above the canvas */
+            z-index: 1;
         }
         a {
             color: #0bc;
@@ -41,7 +41,7 @@
             width: 750px;
             margin: 0 auto;
             position: relative;
-            height: 20px; /* Adjusted to make space for the line of text */
+            height: 20px;
         }
         .decrypting {
             color: #0bc;
@@ -51,20 +51,20 @@
             left: 0;
         }
         .contact-info {
-            margin-top: 1px; /* Minimal space between the line of dashes and the contact info */
+            margin-top: 1px;
             font-size: 14px;
             color: #fff;
-            white-space: nowrap; /* Prevent line breaks */
+            white-space: nowrap;
         }
         .contact-info p {
-            margin: 0; /* No extra margin between lines */
+            margin: 0;
             display: flex;
-            align-items: center; /* Vertically center items */
+            align-items: center;
         }
         .contact-info img {
-            margin-left: 8px; /* Space between email and icon */
-            height: 1em; /* Height to match the font size */
-            vertical-align: middle; /* Ensures proper vertical alignment */
+            margin-left: 8px;
+            height: 1em;
+            vertical-align: middle;
         }
         @keyframes tricolorWave {
             0% { background-position: 200% 0; }
@@ -99,7 +99,7 @@
             position: absolute;
             top: 0;
             left: 0;
-            z-index: 0; /* Ensure the canvas is behind the console text */
+            z-index: 0;
         }
         #header {
             width: 750px;
@@ -127,11 +127,10 @@
     </div>
 
     <script type="text/javascript">
-        // Decryption Effect Code
-        const targetText = "---------------------------------"; // Your horizontal line
+        const targetText = "---------------------------------";
         const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         const length = targetText.length;
-        let currentText = Array(length).fill(' '); // Start with spaces
+        let currentText = Array(length).fill(' ');
         let index = 0;
 
         function updateText() {
@@ -139,9 +138,8 @@
                 currentText[index] = chars.charAt(Math.floor(Math.random() * chars.length));
                 document.getElementById("decryptingText").textContent = currentText.join('');
                 index++;
-                setTimeout(updateText, 50); // Continue with the next character after a delay
+                setTimeout(updateText, 50);
             } else {
-                // Gradually replace random characters with dashes
                 replaceWithDashes();
             }
         }
@@ -154,10 +152,10 @@
                     document.getElementById("decryptingText").textContent = currentText.join('');
                     dashIndex++;
                 } else {
-                    clearInterval(interval); // Stop when all characters are replaced
-                    revealContactInfo(); // Reveal the contact information after decryption
+                    clearInterval(interval);
+                    revealContactInfo();
                 }
-            }, 50); // Adjust speed here
+            }, 50);
         }
 
         function typeText(elementId, text, callback) {
@@ -168,9 +166,9 @@
                 if (charIndex < text.length) {
                     element.innerHTML += text.charAt(charIndex);
                     charIndex++;
-                    setTimeout(type, 50); // Adjust typing speed here
+                    setTimeout(type, 50);
                 } else if (callback) {
-                    setTimeout(callback, 500); // Wait before calling the next callback
+                    setTimeout(callback, 500);
                 }
             }
 
@@ -178,23 +176,22 @@
         }
 
         function revealContactInfo() {
-            // Use plain text and replace manually with mailto links and icons
             const email1 = 'yassir.el-khiar@dauphine.eu';
             const email2 = 'elkhiar00@gmail.com';
             const iconUrl = 'https://i.ibb.co/8Mnq97r/propng3.png';
             typeText('line1', email1, function() {
-                document.getElementById('line1').innerHTML = `<a href="mailto:${email1}?subject=Contact%20from%20website">${email1}</a> <a href="https://imgbb.com/"><img src="${iconUrl}" alt="Icon" /></a>`;
+                document.getElementById('line1').innerHTML = `<a href="mailto:${email1}?subject=Contact%20from%20website">${email1}</a> <img src="${iconUrl}" alt="Icon" style="height: 0.68em; vertical-align: middle;" />`;
                 typeText('line2', email2, function() {
                     document.getElementById('line2').innerHTML = `<a href="mailto:${email2}?subject=Contact%20from%20website">${email2}</a>`;
                     typeText('line3', 'Paris, FR');
                 });
             });
 
-            document.querySelector('.contact-info').classList.remove('hidden'); // Show the contact info container
+            document.querySelector('.contact-info').classList.remove('hidden');
         }
 
-        updateText(); // Start the decryption effect
+        updateText();
     </script>
-    <script src="wireframe.js"></script> <!-- Include the wireframe animation script -->
+    <script src="wireframe.js"></script>
 </body>
 </html>
