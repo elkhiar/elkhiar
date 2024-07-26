@@ -58,6 +58,13 @@
         }
         .contact-info p {
             margin: 0; /* No extra margin between lines */
+            display: flex;
+            align-items: center; /* Vertically center items */
+        }
+        .contact-info img {
+            margin-left: 8px; /* Space between email and icon */
+            height: 1em; /* Height to match the font size */
+            vertical-align: middle; /* Ensures proper vertical alignment */
         }
         @keyframes tricolorWave {
             0% { background-position: 200% 0; }
@@ -171,11 +178,12 @@
         }
 
         function revealContactInfo() {
-            // Use plain text and replace manually with mailto links
+            // Use plain text and replace manually with mailto links and icons
             const email1 = 'yassir.el-khiar@dauphine.eu';
             const email2 = 'elkhiar00@gmail.com';
+            const iconUrl = 'https://i.ibb.co/8Mnq97r/propng3.png';
             typeText('line1', email1, function() {
-                document.getElementById('line1').innerHTML = `<a href="mailto:${email1}?subject=Contact%20from%20website">${email1}</a>`;
+                document.getElementById('line1').innerHTML = `<a href="mailto:${email1}?subject=Contact%20from%20website">${email1}</a> <a href="https://imgbb.com/"><img src="${iconUrl}" alt="Icon" /></a>`;
                 typeText('line2', email2, function() {
                     document.getElementById('line2').innerHTML = `<a href="mailto:${email2}?subject=Contact%20from%20website">${email2}</a>`;
                     typeText('line3', 'Paris, FR');
