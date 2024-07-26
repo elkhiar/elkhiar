@@ -159,7 +159,7 @@
 
             function type() {
                 if (charIndex < text.length) {
-                    element.textContent += text.charAt(charIndex);
+                    element.innerHTML += text.charAt(charIndex);
                     charIndex++;
                     setTimeout(type, 50); // Adjust typing speed here
                 } else if (callback) {
@@ -171,8 +171,13 @@
         }
 
         function revealContactInfo() {
-            typeText('line1', 'yassir.el-khiar@dauphine.eu', function() {
-                typeText('line2', 'elkhiar00@gmail.com', function() {
+            // Use plain text and replace manually with mailto links
+            const email1 = 'yassir.el-khiar@dauphine.eu';
+            const email2 = 'elkhiar00@gmail.com';
+            typeText('line1', email1, function() {
+                document.getElementById('line1').innerHTML = `<a href="mailto:${email1}?subject=Contact%20from%20website">${email1}</a>`;
+                typeText('line2', email2, function() {
+                    document.getElementById('line2').innerHTML = `<a href="mailto:${email2}?subject=Contact%20from%20website">${email2}</a>`;
                     typeText('line3', 'Paris, FR');
                 });
             });
