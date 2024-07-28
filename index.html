@@ -105,6 +105,41 @@
             width: 750px;
             margin: 100px auto 0;
         }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 100px;
+        }
+        .rectangle-container {
+            width: 400px; /* Adjusted to fit the new rectangle width */
+            text-align: center;
+            position: relative;
+            font-size: 14px;
+            margin: 0 20px; /* Space between the rectangles */
+        }
+        .rectangle {
+            color: #0bc;
+            white-space: pre;
+            display: inline-block;
+            position: relative;
+        }
+        .center-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #0bc;
+            font-size: 18px;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: .15em solid #0bc;
+            animation: blink-caret 0.75s step-end infinite;
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #0bc; }
+        }
     </style>
 </head>
 <body>
@@ -123,6 +158,17 @@
                 <p id="line2"></p>
                 <p id="line3"></p>
             </div>
+        </div>
+    </div>
+
+    <div class="container hidden" id="rectangleContainer">
+        <div class="rectangle-container">
+            <div id="rectangleText1" class="rectangle"></div>
+            <div id="typingText1" class="center-text"></div>
+        </div>
+        <div class="rectangle-container">
+            <div id="rectangleText2" class="rectangle"></div>
+            <div id="typingText2" class="center-text"></div>
         </div>
     </div>
 
@@ -183,11 +229,109 @@
                 document.getElementById('line1').innerHTML = `<a href="mailto:${email1}?subject=Contact%20from%20website">${email1}</a> <img src="${iconUrl}" alt="Icon" style="height: 0.68em; vertical-align: middle;" />`;
                 typeText('line2', email2, function() {
                     document.getElementById('line2').innerHTML = `<a href="mailto:${email2}?subject=Contact%20from%20website">${email2}</a>`;
-                    typeText('line3', 'Paris, FR');
+                    typeText('line3', 'Paris, FR', revealRectangleAnimation);
                 });
             });
 
             document.querySelector('.contact-info').classList.remove('hidden');
+        }
+
+        function revealRectangleAnimation() {
+            document.getElementById('rectangleContainer').classList.remove('hidden');
+            generateRandomText('rectangleText1', 'typingText1', 'corporate CV');
+            generateRandomText('rectangleText2', 'typingText2', 'summarize');
+        }
+
+        const width = 20;  // Width of the rectangle in characters
+        const height = 4;  // Height of the rectangle in characters
+        const totalLength = width * height;
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        const delay = 30; // Animation speed for generating random characters
+        const dashDelay = 15; // Animation speed for replacing characters with dashes
+        const typingDelay = 100; // Typing speed for text
+
+        let currentText1 = Array(totalLength).fill(' ');
+        let currentText2 = Array(totalLength).fill(' ');
+        let index = 0;
+
+        function generateRandomText(rectangleId, textId, text) {
+            if (index < totalLength) {
+                const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+                const currentText = rectangleId === 'rectangleText1' ? currentText1 : currentText2;
+                currentText[index] = chars.charAt(Math.floor(Math.random() * chars.length));
+                document.getElementById(rectangleId).textContent = formatText(currentText);
+                index++;
+                setTimeout(() => generateRandomText(rectangleId, textId, text), delay);
+            } else {
+                setTimeout(() => replaceWithCharacters(rectangleId, textId, text), delay);
+            }
+        }
+
+        function replaceWithCharacters(rectangleId, textId, text) {
+            let charIndex = 0;
+            const currentText = rectangleId === 'rectangleText1' ? currentText1 : currentText2;
+            const interval = setInterval(() => {
+                if (charIndex < totalLength) {
+                    if (isCorner(charIndex)) {
+                        currentText[charIndex] = '-';
+                    } else if (isVertical(charIndex)) {
+                        currentText[charIndex] = '|';
+                    } else if (isHorizontal(charIndex)) {
+                        currentText[charIndex] = '-';
+                    }
+                    document.getElementById(rectangleId).textContent = formatText(currentText);
+                    charIndex++;
+                } else {
+                    clearInterval(interval);
+                    typeText(textId, text);
+                }
+            }, dashDelay);
+        }
+
+        function isVertical(index) {
+            const row = Math.floor(index / width);
+            const col = index % width;
+            return col === 0 || col === width - 1;
+        }
+
+        function isHorizontal(index) {
+            const row = Math.floor(index / width);
+            return row === 0 || row === height - 1;
+        }
+
+        function isCorner(index) {
+            const row = Math.floor(index / width);
+            const col = index % width;
+            return (row === 0 && (col === 0 || col === width - 1)) || 
+                   (row === height - 1 && (col === 0 || col === width - 1));
+        }
+
+        function formatText(array) {
+            let text = '';
+            for (let i = 0; i < height; i++) {
+                if (i === 0 || i === height - 1) {
+                    text += array.slice(i * width, (i + 1) * width).join('') + '\n';
+                } else {
+                    text += array[i * width] + ' '.repeat(width - 2) + array[i * width + width - 1] + '\n';
+                }
+            }
+            return text.trim();
+        }
+
+        function typeText(elementId, text) {
+            const element = document.getElementById(elementId);
+            element.textContent = ''; // Clear existing text
+            let charIndex = 0;
+
+            function type() {
+                if (charIndex < text.length) {
+                    element.textContent += text.charAt(charIndex);
+                    charIndex++;
+                    setTimeout(type, typingDelay);
+                }
+            }
+
+            type();
         }
 
         updateText();
